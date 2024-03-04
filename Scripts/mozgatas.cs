@@ -21,7 +21,7 @@ public class mozgatas : MonoBehaviour {
         foreach (GameObject obj in kartyaObjects)
         {
 			if(obj.name != "peldakartya"){
-			temp.Add(obj);
+				temp.Add(obj);
 			}
 		}
 		return temp;
@@ -36,8 +36,9 @@ public class mozgatas : MonoBehaviour {
 		List<GameObject> kartyak = kartyakmegkeresese();
 		for(int i = 0; kartyak.Count>i; i++){
 			int r = rnd.Next(0,helyek.Count);
-			Debug.Log(r);
 			kartyak[i].transform.position = helyek[r];
+			kartyak[i].transform.GetChild(0).position = helyek[r];			
+			kartyak[i].transform.GetChild(1).position = new Vector3(helyek[r].x,helyek[r].y-0.02f,helyek[r].z);
 			helyek.RemoveAt(r);
 		}
 	}
@@ -52,7 +53,7 @@ public class mozgatas : MonoBehaviour {
 			for(int j = 0; j < db/sorok+db%sorok; j++){ //a 2 for ciklus először végig megy az oszlopokon és annyiszor ahány sor van, megoldottam, hogy olyat is lekezeljen ami nem tökéletesen szimmetrikus, 
 			//cserébe az egész esztétika elveszett,
 			//de nincs jobb ötletem ennél
-				temp.Add(new Vector3((xx/(sorok)*(i+0.5f))+GameObject.Find("sarok1").transform.position[0],GameObject.Find("Asztal").transform.position[1],zz/(db/sorok+db%sorok)*(j+0.5f)+GameObject.Find("sarok2").transform.position[2]));
+				temp.Add(new Vector3((xx/(sorok)*(i+0.5f))+GameObject.Find("sarok1").transform.position[0],GameObject.Find("Asztal").transform.position[1]+0.1f,zz/(db/sorok+db%sorok)*(j+0.5f)+GameObject.Find("sarok2").transform.position[2]));
 			}
 		}
 		return temp;

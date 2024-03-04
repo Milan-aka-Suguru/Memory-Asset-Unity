@@ -3,27 +3,31 @@ using System.Collections;
 
 public class valasztas : MonoBehaviour
 {
-    private Color originalColor;
-    private Color highlightColor = Color.yellow;
+    private Quaternion originalRotation;
+    private Quaternion targetRotation;
     private bool isSelected = false;
     private static bool isWaiting = false;
 
+    public float rotationAngle = 180f;
+    public float rotationSpeed = 90f;
+    public float smoothness = 2f;
+
     private void Start()
     {
-        originalColor = GetComponent<Renderer>().material.color;
+        originalRotation = transform.rotation;
+        targetRotation = Quaternion.Euler(transform.rotation.eulerAngles + Vector3.left * rotationAngle + Vector3.up * rotationAngle);
     }
 
     private void OnMouseDown()
     {
         if (!isWaiting)
-        {
+        {            
             if (isSelected)
             {
                 UnselectCard();
             }
             else
             {
-               
                 int selectedCardCount = CountSelectedCards();
                 if (selectedCardCount < 2)
                 {
@@ -39,20 +43,22 @@ public class valasztas : MonoBehaviour
 
     private void SelectCard()
     {
-        GetComponent<Renderer>().material.color = highlightColor;
+        // Smoothly rotate the card
+        StartCoroutine(RotateCard(targetRotation));
         isSelected = true;
     }
 
     private void UnselectCard()
     {
-        GetComponent<Renderer>().material.color = originalColor;
+        // Smoothly rotate the card back to its original rotation
+        StartCoroutine(RotateCard(originalRotation));
         isSelected = false;
     }
 
     private int CountSelectedCards()
     {
         int count = 0;
-       valasztas[] cards = FindObjectsOfType<valasztas>();
+        valasztas[] cards = FindObjectsOfType<valasztas>();
         foreach (valasztas card in cards)
         {
             if (card.isSelected)
@@ -68,10 +74,26 @@ public class valasztas : MonoBehaviour
         isWaiting = true;
         yield return new WaitForSeconds(2f);
         isWaiting = false;
-       valasztas[] cards = FindObjectsOfType<valasztas>();
+        valasztas[] cards = FindObjectsOfType<valasztas>();
         foreach (valasztas card in cards)
         {
             card.UnselectCard();
         }
+    }
+
+    private IEnumerator RotateCard(Quaternion targetRotation)
+    {
+        float elapsedTime = 0f;
+        Quaternion startRotation = transform.rotation;
+
+        while (elapsedTime < 1f)
+        {
+            transform.rotation = Quaternion.Lerp(startRotation, targetRotation, elapsedTime);
+            elapsedTime += Time.deltaTime * smoothness;
+            yield return null;
+        }
+
+        // Ensure final rotation is exact
+        transform.rotation = targetRotation;
     }
 }
