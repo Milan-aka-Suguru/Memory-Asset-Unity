@@ -15,11 +15,11 @@ public class kartyageneralas : MonoBehaviour
         CreateObjects();
         
     }
-    void texturabeall(GameObject g, int ind){
+    void texturabeall(GameObject g, int ind,string oszlopnev){
 
         // Create a new texture and load the image data
         Texture2D texture = new Texture2D(1, 1);
-        texture.LoadImage(sql.keplekerd("select kep from alapkepek where id="+ind));
+        texture.LoadImage(sql.keplekerd("select "+oszlopnev+" from alapkepek where id="+ind));
 
         // Get the renderer component of the GameObject
         Renderer renderer = g.GetComponent<Renderer>();
@@ -48,7 +48,8 @@ public class kartyageneralas : MonoBehaviour
             // Create and position the second cube as a child
             GameObject cube2 = Instantiate(cubePrefab.transform.GetChild(1).gameObject, kartya1.transform);
             cube2.transform.localPosition = Vector3.zero; // Adjust the position as needed
-            texturabeall(cube2,i);
+            texturabeall(cube2,i,"kep");
+            texturabeall(cube1,1,"hatkep");
             kartya1.transform.parent = cube1.transform;
             kartya1.transform.parent = cube2.transform;
             GameObject cube3 = Instantiate(cubePrefab.transform.GetChild(0).gameObject, kartya2.transform);
@@ -56,7 +57,8 @@ public class kartyageneralas : MonoBehaviour
             // Create and position the second cube as a child
             GameObject cube4 = Instantiate(cubePrefab.transform.GetChild(1).gameObject, kartya2.transform);
             cube4.transform.localPosition = Vector3.zero; // Adjust the position as needed
-            texturabeall(cube4,i);
+            texturabeall(cube4,i,"kep");
+            texturabeall(cube3,1,"hatkep");
             kartya1.tag = "Kartya";
             kartya2.tag = "Kartya";
             kartya1.AddComponent<valasztas>();
