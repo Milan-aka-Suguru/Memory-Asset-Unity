@@ -10,31 +10,25 @@ public class sql : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+    private SQLiteConnection csatlakozas(){
         string assetsPath = Application.dataPath;
         string path = Path.Combine(assetsPath, "Scripts/Adatbazisok/kartya.db");
         string connectionString = "Data Source="+path+";Version=3;";
-        Debug.Log(path);
-        using (var connection = new SQLiteConnection(connectionString))
-        {
-            try
-            {
-                // // Open the connection
-                 connection.Open();
-                
-                // // Perform database operations here, like querying or inserting data
-
-                 Debug.Log("Connection to SQLite database successful!");
-
-                // // Don't forget to close the connection when done
-                 connection.Close();
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("Error: " + ex.Message);
-            }
-        }
+        return new SQLiteConnection(connectionString);
     }
-
+    public byte[] keplekerd(string sqlkerd){
+            SQLiteConnection connection = csatlakozas();
+            connection.Open();
+            SQLiteCommand command = new SQLiteCommand(sqlkerd, connection);
+            byte[] imageData = (byte[])command.ExecuteScalar();
+            connection.Close();
+            return imageData;
+    }
+    public void kepfeltolt(){
+        
+    }
     // Update is called once per frame
     void Update()
     {

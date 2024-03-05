@@ -11,6 +11,7 @@ public class valasztas : MonoBehaviour
     public float rotationAngle = 180f;
     public float rotationSpeed = 90f;
     public float smoothness = 2f;
+    public int pontszam = 0;
     private void Start()
     {
         originalRotation = transform.rotation;
@@ -81,13 +82,13 @@ private void SelectCard()
             {
                 if (HaveSameParent(firstSelectedCard.transform, card.transform))
                 {
-                    Debug.Log("Selected cards have the same parent. Destroying...");
                     Destroy(firstSelectedCard.gameObject);
                     Destroy(card.gameObject);
+                    pontszam++;
+                    Debug.Log(pontszam+"");
                 }
                 else
                 {
-                    Debug.Log("Selected cards have different parents.");
                     card.UnselectCard();
                     firstSelectedCard.UnselectCard();
                 }
