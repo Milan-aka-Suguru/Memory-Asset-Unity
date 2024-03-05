@@ -1,31 +1,25 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using System;
 public class valasztas : MonoBehaviour
 {
     private Quaternion originalRotation;
     private Quaternion targetRotation;
     private bool isSelected = false;
-    private static bool isWaiting = false;
+    public bool isWaiting = false;
     public float rotationAngle = 180f;
     public float rotationSpeed = 90f;
     public float smoothness = 2f;
     private valasztas firstSelectedCard = null;
-    private int pontszam = 0;
-    private TMPro.TextMeshProUGUI displayText ;
+
     private void Start()
     {        
-        displayText = GameObject.Find("Pontok").GetComponent<TMPro.TextMeshProUGUI>();
         originalRotation = transform.rotation;
         targetRotation = Quaternion.Euler(transform.rotation.eulerAngles + Vector3.left * rotationAngle + Vector3.up * rotationAngle);        
     }
-    public void pontvalt(int p = -1){        
-        if(p==-1){
-            pontszam=0;            
-        }else{
-            pontszam+=p;
-        }
-        displayText.text = pontszam+"";
+    public void pontvalt(int p = 0){        
+        GameObject.Find("Pontok").GetComponent<TMPro.TextMeshProUGUI>().text = p+"";
     }
     private void OnMouseDown()
     {
@@ -93,7 +87,7 @@ private void SelectCard()
                 {
                     Destroy(firstSelectedCard.gameObject);
                     Destroy(card.gameObject);
-                    this.pontvalt(1);
+                    this.pontvalt(999);
                 }
                 else
                 {

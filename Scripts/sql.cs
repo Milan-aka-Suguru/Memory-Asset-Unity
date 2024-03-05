@@ -14,7 +14,7 @@ public class sql : MonoBehaviour
     }
     private SQLiteConnection csatlakozas(){
         string assetsPath = Application.dataPath;
-        string path = Path.Combine(assetsPath, "Scripts/Adatbazisok/kartya.db");
+        string path = Path.Combine(assetsPath, "Adatbazisok/kartya.db");
         string connectionString = "Data Source="+path+";Version=3;";
         return new SQLiteConnection(connectionString);
     }
