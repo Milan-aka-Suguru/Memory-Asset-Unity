@@ -35,7 +35,7 @@ public class kartyageneralas : MonoBehaviour
     {
         sql = GetComponent<sql>();
         // sql.keplekerd("select kep from alapkepek where id=1");
-        for (int i = 0; i < hossz; i++)
+        for (int i = 1; i < hossz+1; i++)
         {
             // Create an empty GameObject
             GameObject emptyObject = new GameObject("Pár: " + i);
@@ -71,7 +71,7 @@ public class kartyageneralas : MonoBehaviour
             kartya2.transform.parent = emptyObject.transform;
         }
         valasztas = GetComponent<valasztas>(); 
-        valasztas.pontszam = 0;
+        valasztas.pontvalt();
         mozgatas = GetComponent<mozgatas>();
         mozgatas.keveres();
     }

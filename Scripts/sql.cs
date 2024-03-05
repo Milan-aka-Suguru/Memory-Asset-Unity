@@ -27,7 +27,7 @@ public class sql : MonoBehaviour
             return imageData;
     }
     public void kepfeltolt(){
-        
+
     }
     // Update is called once per frame
     void Update()
