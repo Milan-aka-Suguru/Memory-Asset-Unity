@@ -1,14 +1,27 @@
 using UnityEngine;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
     private GameObject pauseMenuUI;
     private GameObject pontokUI;
-
+    private TMPro.TMP_Dropdown displayMode;
     void Start(){
         pauseMenuUI = GameObject.Find("PauseMenu");
-        pontokUI   = GameObject.Find("Canvas");        
+        pontokUI   = GameObject.Find("Canvas"); 
+        displayMode = GameObject.Find("ResolutionDM").GetComponent<TMPro.TMP_Dropdown>();        
+        displayMode.onValueChanged.AddListener(delegate
+        {
+            DisplayModeChange(displayMode.value);
+        });        
         TogglePauseMenu(pauseMenuUI, !pauseMenuUI.activeSelf);
+        
+    }
+    void DisplayModeChange(int value)
+    {
+        if(value == 0) Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        else if(value==1) Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+        else Screen.fullScreenMode = FullScreenMode.Windowed;
     }
     void Update()
     {
