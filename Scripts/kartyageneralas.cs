@@ -7,11 +7,12 @@ public class kartyageneralas : MonoBehaviour
     // Start is called before the first frame update    
     public int hossz; // Change this to the desired number of objects
     public GameObject cubePrefab;    
-    public mozgatas mozgatas;
-    public sql sql;
-    public valasztas valasztas;
+    private mozgatas mozgatas;
+    private sql sql;
+    private valasztas valasztas;
     void Start()
     {
+        
         CreateObjects();
         
     }
@@ -72,8 +73,6 @@ public class kartyageneralas : MonoBehaviour
             kartya1.transform.parent = emptyObject.transform;
             kartya2.transform.parent = emptyObject.transform;
         }
-        valasztas = GetComponent<valasztas>(); 
-        valasztas.pontvalt();
         mozgatas = GetComponent<mozgatas>();
         mozgatas.keveres();
     }

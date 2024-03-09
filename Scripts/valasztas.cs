@@ -10,16 +10,15 @@ public class valasztas : MonoBehaviour
     public bool isWaiting = false;
     public float rotationAngle = 180f;
     public float rotationSpeed = 90f;
-    public float smoothness = 0.4f;
+    public float smoothness = 0.7f;
     private valasztas firstSelectedCard = null;
+    private misc pontok;
 
     private void Start()
     {        
+        pontok = GameObject.Find("Asztal").GetComponent<misc>();
         originalRotation = transform.rotation;
         targetRotation = Quaternion.Euler(transform.rotation.eulerAngles + Vector3.left * rotationAngle + Vector3.up * rotationAngle);        
-    }
-    public void pontvalt(int p = 0){        
-        GameObject.Find("Pontok").GetComponent<TMPro.TextMeshProUGUI>().text = p+"";
     }
     private void OnMouseDown()
     {
@@ -103,7 +102,7 @@ private void SelectCard()
                 {
                     Destroy(firstSelectedCard.gameObject);
                     Destroy(card.gameObject);
-                    this.pontvalt(999);
+                    pontok.pontvalt(2);
                 }
                 else
                 {
