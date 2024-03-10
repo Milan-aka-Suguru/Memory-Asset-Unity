@@ -5,33 +5,33 @@ using System.Data.SQLite;
 using System.IO;
 using System;
 
-public class sql : MonoBehaviour
+public class DatabaseCommands : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-
+        ConnectToDB();
     }
-    private SQLiteConnection csatlakozas(){
+    private SQLiteConnection ConnectToDB(){
         string assetsPath = Application.dataPath;
         string path = Path.Combine(assetsPath, "Adatbazisok/kartya.db");
         string connectionString = "Data Source="+path+";Version=3;";
         return new SQLiteConnection(connectionString);
     }
-    public byte[] keplekerd(string sqlkerd){
-            SQLiteConnection connection = csatlakozas();
+    public byte[] GetImage(string sqlGet){
+            SQLiteConnection connection = ConnectToDB();
             connection.Open();
-            SQLiteCommand command = new SQLiteCommand(sqlkerd, connection);
+            SQLiteCommand command = new SQLiteCommand(sqlGet, connection);
             byte[] imageData = (byte[])command.ExecuteScalar();
             connection.Close();
             return imageData;
     }
-    public void kepfeltolt(){
+    public void kepfeltolt()
+    {
 
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

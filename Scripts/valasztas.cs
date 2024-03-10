@@ -10,15 +10,16 @@ public class valasztas : MonoBehaviour
     public bool isWaiting = false;
     public float rotationAngle = 180f;
     public float rotationSpeed = 90f;
-    public float smoothness = 0.7f;
+    public float smoothness = 2f;
     private valasztas firstSelectedCard = null;
-    private misc pontok;
 
     private void Start()
     {        
-        pontok = GameObject.Find("Asztal").GetComponent<misc>();
         originalRotation = transform.rotation;
         targetRotation = Quaternion.Euler(transform.rotation.eulerAngles + Vector3.left * rotationAngle + Vector3.up * rotationAngle);        
+    }
+    public void pontvalt(int p = 0){        
+        GameObject.Find("Pontok").GetComponent<TMPro.TextMeshProUGUI>().text = p+"";
     }
     private void OnMouseDown()
     {
@@ -47,27 +48,15 @@ public class valasztas : MonoBehaviour
 private void SelectCard()
     {
         // Smoothly rotate the card
-        float elapsedTime = 0f;
-        while (elapsedTime < 1f)
-        {
-            elapsedTime += Time.deltaTime * smoothness;            
-        }    
         StartCoroutine(RotateCard(targetRotation));
         isSelected = true;
-        isWaiting = true;
     }
 
     private void UnselectCard()
     {
         // Smoothly rotate the card back to its original rotation
-        float elapsedTime = 0f;
-        while (elapsedTime < 1f)
-        {
-            elapsedTime += Time.deltaTime * smoothness;            
-        }            
         StartCoroutine(RotateCard(originalRotation));
         isSelected = false;
-        isWaiting = false;
     }
     private int CountSelectedCards()
     {
@@ -86,13 +75,9 @@ private void SelectCard()
     private IEnumerator WaitAndUnselect()
     {
         isWaiting = true;
-            
-        float elapsedTime = 0f;
-        while (elapsedTime < 1f)
-        {
-            elapsedTime += Time.deltaTime * smoothness;
-            yield return null;
-        } 
+        yield return new WaitForSeconds(1f);
+        isWaiting = false;
+
         valasztas[] cards = FindObjectsOfType<valasztas>();
         foreach (valasztas card in cards)
         {
@@ -102,7 +87,7 @@ private void SelectCard()
                 {
                     Destroy(firstSelectedCard.gameObject);
                     Destroy(card.gameObject);
-                    pontok.pontvalt(2);
+                    this.pontvalt(int.Parse(GameObject.Find("Pontok").GetComponent<TMPro.TextMeshProUGUI>().text)+1);
                 }
                 else
                 {
@@ -114,15 +99,16 @@ private void SelectCard()
     }
 private IEnumerator RotateCard(Quaternion targetRotation)
     {
+        float elapsedTime = 0f;
         Quaternion startRotation = transform.rotation;
 
-        float elapsedTime = 0f;
         while (elapsedTime < 1f)
         {
             transform.rotation = Quaternion.Lerp(startRotation, targetRotation, elapsedTime);
             elapsedTime += Time.deltaTime * smoothness;
             yield return null;
-        }        
+        }
+
         // Ensure final rotation is exact
         transform.rotation = targetRotation;
     }
