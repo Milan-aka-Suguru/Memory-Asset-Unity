@@ -25,7 +25,7 @@ public class DatabaseCommands : MonoBehaviour
             connection.Close();
             return imageData;
     }
-    public void kepfeltolt()
+    public void uploadFile(string path)
     {
 
     }
