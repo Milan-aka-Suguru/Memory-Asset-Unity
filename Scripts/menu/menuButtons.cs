@@ -24,7 +24,7 @@ public class menuButtons : MonoBehaviour
             StateNameController.GridWidth = 4;
             StateNameController.GridHeight = 4;
         }
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void QuitGame()
